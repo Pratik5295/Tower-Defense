@@ -34,7 +34,7 @@ public class BuildingManager : MonoBehaviour
 
     private Vector3 GetBuildPosition(Transform tilePosition)
     {
-        Vector3 buildPostion = new Vector3(tilePosition.position.x, tilePosition.position.y + 1.2f, tilePosition.position.z);
+        Vector3 buildPostion = new Vector3(tilePosition.position.x, tilePosition.position.y, tilePosition.position.z);
         return buildPostion;
     }
 }

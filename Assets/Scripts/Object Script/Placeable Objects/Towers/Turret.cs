@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +17,14 @@ public class Turret : MonoBehaviour
 
     [SerializeField] private GameObject target;
 
+    [SerializeField] private List<GameObject> potentialTargets;
+
     public float speed = 1.0f;
 
     private void Start()
     {
         shootingCounter = maxShootingCounter;
+        potentialTargets = new List<GameObject>();
     }
 
     private void Update()
@@ -29,6 +33,15 @@ public class Turret : MonoBehaviour
         {
             TargetRotation();
             shootingCounter -= Time.deltaTime;
+        }
+        else
+        {
+            if(potentialTargets.Count > 0)
+            {
+                //Set target as our current target got away or died
+                Debug.Log("Searching for new target");
+                SetTarget(potentialTargets[0]);
+            }
         }
     }
 
@@ -64,12 +77,39 @@ public class Turret : MonoBehaviour
     //Shooting logic
     public void SetTarget(GameObject enemy)
     {
+        if (target != null) return;
+
         target = enemy;
+
+        Enemy enem = target.GetComponent<Enemy>();
+        enem.OnEnemyDeathEvent += OnEnemyDeathEventListener;
+    }
+
+    private void OnEnemyDeathEventListener()
+    {
+        Debug.Log($"{target.gameObject.name} has died");
+        Enemy enem = target.GetComponent<Enemy>();
+        enem.OnEnemyDeathEvent -= OnEnemyDeathEventListener;
+        RemoveFromTargetList(target);
     }
 
     public GameObject GetTarget()
     {
         return target;
+    }
+
+    public void AddToTargetList(GameObject enemy)
+    {
+        if (potentialTargets.Contains(enemy)) return;
+
+        potentialTargets.Add(enemy);
+    }
+    public void RemoveFromTargetList(GameObject enemy)
+    {
+        if (!potentialTargets.Contains(enemy)) return;
+
+        potentialTargets.Remove(enemy);
+        target = null;
     }
 
     private void Shoot()

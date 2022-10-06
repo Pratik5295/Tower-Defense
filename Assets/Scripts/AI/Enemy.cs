@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,7 @@ public class Enemy : MonoBehaviour
     public GameObject target;
 
     public CharacterStats stats;
+    public Action OnEnemyDeathEvent;
     private void Start()
     {
         agent.speed = stats.movementSpeed;
@@ -22,6 +24,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDeathEventHandler()
     {
+        OnEnemyDeathEvent?.Invoke();
         Destroy(this.gameObject);
     }
 }

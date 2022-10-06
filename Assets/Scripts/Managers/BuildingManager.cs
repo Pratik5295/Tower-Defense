@@ -20,6 +20,11 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
+    public void SetBuildingItem(GameObject item)
+    {
+        buildingItem = item;
+    }
+
     public void BuildItem(Tile tile)
     {
         if (buildingItem == null) return;

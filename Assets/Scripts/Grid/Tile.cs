@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour
     [SerializeField] private Guid tileId;
     [SerializeField] private Type type;
 
+    [SerializeField] private GameObject tileCanvas;
+
     private void Awake()
     {
         //Generate a new Guid each time game is started, would need to change it afterwards?
@@ -23,6 +25,9 @@ public class Tile : MonoBehaviour
 
         if(TileManager.Instance != null)
         TileManager.Instance.AddTile(this);
+
+        if (tileCanvas == null) return;
+        tileCanvas.SetActive(false);
     }
 
     public Guid GetId()
@@ -42,9 +47,25 @@ public class Tile : MonoBehaviour
 
         if(type == Type.UNPLACED)
         {
-            BuildingManager.Instance.BuildItem(this);
-            SetType(Type.PLACED);
+            //Open the options menu
+            tileCanvas.SetActive(true);
         }
+    }
+
+    public void CloseBuildMenu()
+    {
+        tileCanvas.SetActive(false);
+    }
+
+    public void BuildTower(GameObject item)
+    {
+        if (BuildingManager.Instance == null) return;
+
+        BuildingManager.Instance.SetBuildingItem(item);
+        BuildingManager.Instance.BuildItem(this);
+        SetType(Type.PLACED);
+        tileCanvas.SetActive(false);
+        BuildingManager.Instance.SetBuildingItem(null);
     }
 
     public void ChangeToUnplaced()

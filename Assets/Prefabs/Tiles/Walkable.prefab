@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4783945985087120491}
   m_Layer: 0
   m_Name: Walkable
-  m_TagString: Untagged
+  m_TagString: GameTile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -111,3 +111,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
+  tileCanvas: {fileID: 0}

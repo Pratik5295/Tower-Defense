@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    //This script will be responsible for the placement and delete part of the tower
+    //TODO: For now, the tower stats will be added in this script, but will be moved to a Stat script in future
+    
     public Tile tile;   //The tile it is placed on
 
     public void AddTileReference(Tile _tile)

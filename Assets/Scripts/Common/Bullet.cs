@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private float damage;
     [SerializeField] private GameObject target;
     public float speed;
 
@@ -40,6 +41,11 @@ public class Bullet : MonoBehaviour
     private void HitTarget()
     {
         Debug.Log("Hit target!");
+        if (target.tag == "Enemy")
+        {
+            CharacterStats enemyStats = target.GetComponent<CharacterStats>();
+            enemyStats.TakeDamage(damage);
+        }
         Destroy(this.gameObject);
     }
 }

@@ -5,7 +5,7 @@ public class TriggerArea : MonoBehaviour
     [SerializeField] private Turret turret;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag == "Enemy" && turret.GetTarget() == null)
         {
             Debug.Log("Enemy has entered area");
             turret.SetTarget(other.gameObject);
@@ -14,7 +14,7 @@ public class TriggerArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy" && turret.GetTarget() != null)
         {
             Debug.Log("Enemy has left area");
             turret.SetTarget(null);

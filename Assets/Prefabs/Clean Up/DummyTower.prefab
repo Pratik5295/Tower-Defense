@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5270248806960191145}
   - component: {fileID: 1712986954994762574}
+  - component: {fileID: 998463192177375983}
   m_Layer: 0
   m_Name: DummyTower
   m_TagString: Untagged
@@ -48,6 +49,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+--- !u!65 &998463192177375983
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613910338933953440}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.36, z: 1}
+  m_Center: {x: 0, y: 0.68, z: 0}
 --- !u!1 &2726457541686343547
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +240,6 @@ GameObject:
   - component: {fileID: 7299022044492582491}
   - component: {fileID: 7236081808385286892}
   - component: {fileID: 6624032920924800080}
-  - component: {fileID: 3997949288521790155}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -299,20 +312,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3997949288521790155
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4183061589606075218}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &7017934942674150164
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +323,7 @@ GameObject:
   - component: {fileID: 2736749016130776313}
   - component: {fileID: 3840090510509413383}
   - component: {fileID: 2161885522936855274}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}

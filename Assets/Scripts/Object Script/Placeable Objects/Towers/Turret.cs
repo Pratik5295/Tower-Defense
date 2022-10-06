@@ -5,7 +5,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Turret : MonoBehaviour
 {
+    //This script will be responsible for the shooting only
     //This will be connected to the tower's turret
+    
     public GameObject projectilePrefab;
     public GameObject barrelPoint;
 
@@ -63,6 +65,11 @@ public class Turret : MonoBehaviour
     public void SetTarget(GameObject enemy)
     {
         target = enemy;
+    }
+
+    public GameObject GetTarget()
+    {
+        return target;
     }
 
     private void Shoot()

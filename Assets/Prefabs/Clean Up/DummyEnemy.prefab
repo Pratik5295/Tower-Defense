@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2823925408752230421}
   - component: {fileID: 2823925408752230418}
   - component: {fileID: 2823925408752230419}
+  - component: {fileID: 4064010159746116906}
   - component: {fileID: 2823925408752230416}
   - component: {fileID: 2823925408752230417}
-  - component: {fileID: 4064010159746116906}
+  - component: {fileID: 6510420209860104053}
   m_Layer: 0
   m_Name: DummyEnemy
   m_TagString: Enemy
@@ -101,6 +102,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4064010159746116906
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2823925408752230414}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
 --- !u!195 &2823925408752230416
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -137,19 +154,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 2823925408752230416}
   target: {fileID: 0}
---- !u!54 &4064010159746116906
-Rigidbody:
+  stats: {fileID: 6510420209860104053}
+--- !u!114 &6510420209860104053
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2823925408752230414}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 4
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c4ab00c0d023384cb2a2d08044a55bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 5
+  movementSpeed: 0.5

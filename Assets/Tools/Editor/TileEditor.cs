@@ -14,6 +14,15 @@ public class TileEditor : EditorWindow
     Editor gameObjectEditor;
     static bool active;
 
+    enum MODE
+    {
+        NONE = 0,
+        PAINT = 1,
+        ERASER = 2
+    }
+
+    private MODE EditorMode;
+
     GameObject selectedTile;
     GameObject gridTile;
     Transform tileParent;
@@ -30,6 +39,12 @@ public class TileEditor : EditorWindow
     {
         TileEditor tileEditor = GetWindow<TileEditor>();
         tileEditor.titleContent = new GUIContent("Tile Editor");
+    }
+
+    private void SetMode(MODE state)
+    {
+        EditorMode = state;
+        Debug.Log($"Editor mode: {EditorMode.ToString()}");
     }
 
     private void OnEnable()
@@ -59,12 +74,24 @@ public class TileEditor : EditorWindow
             {
                 Debug.Log("Hit: " + hit.collider.gameObject.name);
 
-                if (hit.collider.gameObject.tag == "GridTile")
+                if(EditorMode == MODE.PAINT && selectedTile != null)
                 {
-                    var obj = CreateTile();
-                    Vector3 objPosition = hit.collider.gameObject.transform.position;
-                    objPosition.y = 0;
-                    obj.transform.position = objPosition;
+                    if(hit.collider.gameObject.tag == "GridTile")
+                    {
+                        var obj = CreateTile();
+                        if (obj == null) return;
+
+                        Vector3 objPosition = hit.collider.gameObject.transform.position;
+                        objPosition.y = 0;
+                        obj.transform.position = objPosition;
+                    }
+                }
+                else if(EditorMode == MODE.ERASER)
+                {
+                    if(hit.collider.gameObject.tag == "GameTile")
+                    {
+                        DestroyImmediate(hit.collider.gameObject);
+                    }
                 }
             }
         }
@@ -99,18 +126,39 @@ public class TileEditor : EditorWindow
         }
 
         EditorGUILayout.Space();
+        GUILayout.Label("Level Parent", EditorStyles.boldLabel);
+        tileParent = EditorGUILayout.ObjectField("Ground Tile Parent", tileParent, typeof(Transform), true) as Transform;
+
+
+        EditorGUILayout.Space();
+        GUILayout.Label("Selected Tile", EditorStyles.boldLabel);
+        EditorGUILayout.Space();
         selectedTile = EditorGUILayout.ObjectField("Selected Tile", selectedTile, typeof(GameObject), false) as GameObject;
+        EditorGUILayout.Space();
         ShowPreview();
+        EditorGUILayout.Space();
 
 
-        tileParent = EditorGUILayout.ObjectField("Tile Parent", tileParent, typeof(Transform), true) as Transform;
-
-        
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Brush"))
+        {
+            SetMode(MODE.PAINT);
+        }
+        if (GUILayout.Button("Eraser"))
+        {
+            SetMode(MODE.ERASER);
+        }
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.Space();
 
         GameObject toBeRemoved = null;
 
-        if (tilePalette.Count > 0)
+        if (tilePalette != null && tilePalette.Count > 0)
         {
+            EditorGUILayout.Space();
+            GUILayout.Label("Tile Palette", EditorStyles.boldLabel);
+            EditorGUILayout.Space();
+
             foreach (GameObject tilePaint in tilePalette)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -130,8 +178,10 @@ public class TileEditor : EditorWindow
                 EditorGUILayout.EndHorizontal();
             }
             RemoveFromTilePalette(toBeRemoved);
+            EditorGUILayout.Space();
         }
 
+        EditorGUILayout.Space();
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
         if (GUILayout.Button("+", GUILayout.Width(30), GUILayout.Height(30)))
@@ -143,8 +193,10 @@ public class TileEditor : EditorWindow
 
     private GameObject CreateTile()
     {
-        GameObject tile = Instantiate(selectedTile);
 
+        if (selectedTile == null) return null;
+
+        GameObject tile = Instantiate(selectedTile);
 
         if (tileParent != null)
             tile.transform.SetParent(tileParent);
@@ -157,6 +209,11 @@ public class TileEditor : EditorWindow
         {
             selectedTile = updatedTile;
             return;
+        }
+
+        if(tilePalette == null)
+        {
+            selectedTile = updatedTile;
         }
 
         tilePalette.Add(updatedTile);

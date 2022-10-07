@@ -11,7 +11,7 @@ public class EditorTile : EditorWindow
     public static void ShowWindow(TileEditor tileEdit)
     {
         EditorTile editerPage = GetWindow<EditorTile>();
-        editerPage.titleContent = new GUIContent("Add a Page");
+        editerPage.titleContent = new GUIContent("Add a Tile");
         tileEditor = tileEdit;
     }
 

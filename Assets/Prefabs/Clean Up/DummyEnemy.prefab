@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2823925408752230416}
-  target: {fileID: 0}
   stats: {fileID: 6510420209860104053}
+  bounty: 10
 --- !u!114 &6510420209860104053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,7 +359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 25
-  health: 5
   movementSpeed: 0.5
   healthBar: {fileID: 8559454694701265107}
 --- !u!1 &2945463291026268200

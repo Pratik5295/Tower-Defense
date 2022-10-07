@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Tile : MonoBehaviour
 {
@@ -22,9 +23,12 @@ public class Tile : MonoBehaviour
         //Generate a new Guid each time game is started, would need to change it afterwards?
 
         tileId = Guid.NewGuid();
+    }
 
-        if(TileManager.Instance != null)
-        TileManager.Instance.AddTile(this);
+    private void Start()
+    {
+        if (TileManager.Instance != null)
+            TileManager.Instance.AddTile(this);
 
         if (tileCanvas == null) return;
         tileCanvas.SetActive(false);
@@ -41,6 +45,8 @@ public class Tile : MonoBehaviour
 
     public void OnMouseDown()
     {
+        if (InputManager.Instance.isUI) return;
+
         if (type == Type.PLACED || type == Type.WALKABLE) return;
 
         //TODO: Future, if not in build mode, return (dont do anything)

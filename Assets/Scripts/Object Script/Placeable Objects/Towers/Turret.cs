@@ -89,6 +89,7 @@ public class Turret : MonoBehaviour
     {
         Debug.Log($"{target.gameObject.name} has died");
         Enemy enem = target.GetComponent<Enemy>();
+        int killBounty = enem.bounty;
         enem.OnEnemyDeathEvent -= OnEnemyDeathEventListener;
         RemoveFromTargetList(target);
     }

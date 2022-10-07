@@ -253,7 +253,10 @@ public class TileEditor : EditorWindow
     {
         Vector3 startPoint = gridParent.transform.position;
         startPoint = new Vector3(startPoint.x + 0.5f, 0, startPoint.z + 0.5f);
-
+        if(gridTiles == null)
+        {
+            gridTiles = new List<GameObject>();
+        }
         for (int i = 0; i < gridSize; i++)
         {
             for (int j = 0; j <= gridSize; j++)

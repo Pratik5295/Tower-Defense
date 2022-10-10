@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float damage;
+    [SerializeField] protected float damage;
     [SerializeField] private GameObject target;
     public float speed;
 
@@ -16,6 +16,11 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         Shooting();
+    }
+
+    public float GetDamage()
+    {
+        return damage;
     }
 
     private void Shooting()
@@ -38,7 +43,7 @@ public class Bullet : MonoBehaviour
         transform.Translate(dir.normalized * distanceThisFrame, Space.World);
     }
 
-    private void HitTarget()
+    protected virtual void HitTarget()
     {
         Debug.Log("Hit target!");
         if (target.tag == "Enemy")

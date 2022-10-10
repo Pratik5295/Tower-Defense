@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     {
         agent.speed = stats.movementSpeed;
         target = GameObject.FindGameObjectWithTag("TownHall");
+        if (target == null) return;
         agent.SetDestination(target.transform.position);
         stats.OnDeathEvent += OnDeathEventHandler;
     }

@@ -8,7 +8,7 @@ public class Turret : MonoBehaviour
 {
     //This script will be responsible for the shooting only
     //This will be connected to the tower's turret
-    
+
     public GameObject projectilePrefab;
     public GameObject barrelPoint;
 
@@ -36,11 +36,18 @@ public class Turret : MonoBehaviour
         }
         else
         {
-            if(potentialTargets.Count > 0)
+            if (potentialTargets.Count > 0)
             {
                 //Set target as our current target got away or died
                 Debug.Log("Searching for new target");
-                SetTarget(potentialTargets[0]);
+                if (potentialTargets[0] == null)
+                {
+                    potentialTargets.RemoveAt(0);
+                }
+                else
+                {
+                    SetTarget(potentialTargets[0]);
+                }
             }
         }
     }
@@ -78,7 +85,7 @@ public class Turret : MonoBehaviour
     public void SetTarget(GameObject enemy)
     {
         if (target != null) return;
-
+        if (enemy == null) return;
         target = enemy;
 
         Enemy enem = target.GetComponent<Enemy>();

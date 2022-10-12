@@ -112,4 +112,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   target: {fileID: 0}
-  speed: 1
+  speed: 7

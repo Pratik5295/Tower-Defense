@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     //One hit destroy enemies for now. To be expanded later
     public NavMeshAgent agent;
-    private GameObject target;
+    [SerializeField]private GameObject target;
 
     public CharacterStats stats;
     public Action OnEnemyDeathEvent;
@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         agent.speed = stats.movementSpeed;
-        target = GameObject.FindGameObjectWithTag("TownHall");
+        //target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null) return;
         agent.SetDestination(target.transform.position);
         stats.OnDeathEvent += OnDeathEventHandler;
@@ -25,10 +25,19 @@ public class Enemy : MonoBehaviour
         stats.OnDeathEvent -= OnDeathEventHandler;
     }
 
+    public void SetTarget(GameObject _target)
+    {
+        target = _target;
+        agent.SetDestination(target.transform.position);
+    }
+
     private void OnDeathEventHandler()
     {
         OnEnemyDeathEvent?.Invoke();
-        CurrencyManager.Instance.AddAmount(bounty);
+
+        if(CurrencyManager.Instance != null)
+            CurrencyManager.Instance.AddAmount(bounty);
+        
         Destroy(this.gameObject);
     }
 }

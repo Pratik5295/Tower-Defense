@@ -1,11 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
 {
     //This script will be added to every object using a stat
     // A scriptable object would be used to get the info of each character
+
+    //State of each character?
+    public enum State
+    {
+        IDLE = 0,
+        MOVE = 1,
+        BATTLE = 2,
+        DEAD = 3
+    }
+
+    public State state;
 
     public float maxHealth;
     private float health;
@@ -20,6 +32,13 @@ public class CharacterStats : MonoBehaviour
 
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
+
+        SetState(State.IDLE);
+    }
+
+    public void SetState(State state)
+    {
+        this.state = state;
     }
 
     public void TakeDamage(float amount)
@@ -29,6 +48,9 @@ public class CharacterStats : MonoBehaviour
         healthBar.value = health;
 
         if (health <= 0)
+        {
+            SetState(State.DEAD);
             OnDeathEvent?.Invoke();
+        }
     }
 }

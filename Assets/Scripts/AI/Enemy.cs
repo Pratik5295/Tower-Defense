@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     public int bounty;      //Amount of money player receives for kill
 
     [SerializeField] private float thresholdDistance;
-    private float attackCounter;
+    [SerializeField] private float attackCounter;
     [SerializeField] private float maxAttackCounter;
     private void Start()
     {
@@ -65,7 +65,13 @@ public class Enemy : MonoBehaviour
         if(distance < thresholdDistance)
         {
             agent.isStopped = true;
-            stats.SetState(CharacterStats.State.BATTLE);
+            
+            if (attackCounter == 0)
+            {
+
+                stats.SetState(CharacterStats.State.BATTLE);
+                attackCounter = maxAttackCounter;
+            }
         }
     }
 
@@ -73,15 +79,15 @@ public class Enemy : MonoBehaviour
     {
         if (target == null) return;
 
-        if(stats.state == CharacterStats.State.BATTLE)
-        {
-            attackCounter -= Time.deltaTime;
+        //if(stats.state == CharacterStats.State.BATTLE)
+        //{
+        //    attackCounter -= Time.deltaTime;
 
-            if(attackCounter < 0)
-            {
-                Debug.Log($"{this.gameObject.name} is attacking {target.name}");
-                attackCounter = maxAttackCounter;
-            }
-        }
+        //    if(attackCounter < 0)
+        //    {
+        //        Debug.Log($"{this.gameObject.name} is attacking {target.name}");
+        //        attackCounter = maxAttackCounter;
+        //    }
+        //}
     }
 }

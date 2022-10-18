@@ -191,6 +191,7 @@ MonoBehaviour:
   target: {fileID: 0}
   stats: {fileID: 6404918377159153448}
   bounty: 10
+  damage: 3
   thresholdDistance: 2
   attackCounter: 0
   maxAttackCounter: 3
@@ -593,6 +594,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
+--- !u!1 &4474136251283958382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
+  m_PrefabInstance: {fileID: 5537234463465739499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8008156179087499304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4474136251283958382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8effca9eeff9611418983133d0e43590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2705509752836552780}
 --- !u!4 &4474136251284190798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8272943599223628453, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}

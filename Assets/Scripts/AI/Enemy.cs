@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
     public Action OnEnemyDeathEvent;
     public int bounty;      //Amount of money player receives for kill
 
+    [SerializeField] private float damage;
+
     [SerializeField] private float thresholdDistance;
     [SerializeField] private float attackCounter;
     [SerializeField] private float maxAttackCounter;
@@ -29,7 +31,6 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         HasReachDestination();
-        Battle();
     }
 
     private void OnDestroy()
@@ -75,7 +76,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Battle()
+    public void Battle()
     {
         if (target == null) return;
 
@@ -89,5 +90,11 @@ public class Enemy : MonoBehaviour
         //        attackCounter = maxAttackCounter;
         //    }
         //}
+
+        Debug.Log($"{target.gameObject.name}");
+        CharacterStats targetStats = target.GetComponent<CharacterStats>();
+
+        if (targetStats != null)
+            targetStats.TakeDamage(damage);
     }
 }

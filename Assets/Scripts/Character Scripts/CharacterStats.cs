@@ -24,7 +24,7 @@ public class CharacterStats : MonoBehaviour
     private int PARAM_STATE = Animator.StringToHash("State");
 
     public float maxHealth;
-    private float health;
+    [SerializeField] private float health;
     public float movementSpeed;
     public Action OnDeathEvent;
 
@@ -44,7 +44,7 @@ public class CharacterStats : MonoBehaviour
     {
         this.state = state;
 
-        if (animator.gameObject.activeInHierarchy)
+        if (animator != null && animator.gameObject.activeInHierarchy)
             animator.SetInteger(PARAM_STATE, (int)state);
 
     }

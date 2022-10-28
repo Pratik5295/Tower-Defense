@@ -10,22 +10,23 @@ public class Enemy : MonoBehaviour
 
     public CharacterStats stats;
     public Action OnEnemyDeathEvent;
+    [SerializeField]private Hero hero;
     public int bounty;      //Amount of money player receives for kill
 
     [SerializeField] private float damage;
+    [SerializeField] private Vector3 targetLocation;
 
     [SerializeField] private float thresholdDistance;
     [SerializeField] private float attackCounter;
     [SerializeField] private float maxAttackCounter;
     private void Start()
     {
+        stats.OnDeathEvent += OnDeathEventHandler;
         agent.speed = stats.movementSpeed;
         target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null) return;
        
         SetTarget(target);
-
-        stats.OnDeathEvent += OnDeathEventHandler;
     }
 
     private void Update()
@@ -41,12 +42,47 @@ public class Enemy : MonoBehaviour
     public void SetTarget(GameObject _target)
     {
         target = _target;
+
+        if (target == null)
+        {
+            agent.isStopped = true;
+            stats.SetState(CharacterStats.State.IDLE);
+            return;
+        }
+        targetLocation = target.transform.position;
+        agent.SetDestination(targetLocation);
+        stats.SetState(CharacterStats.State.MOVE);
+
+        if(target.GetComponent<Hero>() != null)
+        {
+            hero = target.GetComponent<Hero>();
+            hero.OnDeathEvent += SetTargetToHall;
+        }
+    }
+
+    public void SetTargetToHall()
+    {
+        if (hero != null)
+        {
+            hero.OnDeathEvent -= SetTargetToHall;
+            hero = null;
+        }
+
+        target = target = GameObject.FindGameObjectWithTag("TownHall");
+        if (target == null) 
+        {
+            agent.isStopped = true;
+            stats.SetState(CharacterStats.State.IDLE);
+            return; 
+        }
+
         agent.SetDestination(target.transform.position);
         stats.SetState(CharacterStats.State.MOVE);
     }
 
     private void OnDeathEventHandler()
     {
+        Debug.Log("Dying enemy");
         OnEnemyDeathEvent?.Invoke();
 
         if(CurrencyManager.Instance != null)
@@ -61,7 +97,14 @@ public class Enemy : MonoBehaviour
 
         if (stats.state == CharacterStats.State.BATTLE) return;
 
-        float distance = Vector3.Distance(target.transform.position, this.transform.position);
+        if (targetLocation != target.transform.position)
+        {
+            //Target is moving
+            targetLocation = target.transform.position;
+            agent.SetDestination(targetLocation);
+        }
+
+        float distance = Vector3.Distance(targetLocation, this.transform.position);
 
         if(distance < thresholdDistance)
         {
@@ -69,10 +112,17 @@ public class Enemy : MonoBehaviour
             
             if (attackCounter == 0)
             {
-
+                agent.isStopped = true;
                 stats.SetState(CharacterStats.State.BATTLE);
                 attackCounter = maxAttackCounter;
             }
+        }
+        else
+        {
+            agent.isStopped = false;
+            targetLocation = target.transform.position;
+            agent.SetDestination(targetLocation);
+            stats.SetState(CharacterStats.State.MOVE);
         }
     }
 

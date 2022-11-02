@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CharacterStats))]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -53,10 +54,17 @@ public class Hero : MonoBehaviour
 
         potentialTargets.Remove(enemy);
 
-        Enemy enem = target.GetComponent<Enemy>();
-        enem.OnEnemyDeathEvent -= OnEnemyDeathEventListener;
 
-        SetTargetEmpty();
+        if (target.GetComponent<Enemy>() != null)
+        {
+            Enemy enem = target.GetComponent<Enemy>();
+            enem.OnEnemyDeathEvent -= OnEnemyDeathEventListener;
+        }
+
+        target = null;
+        targetLocation = Vector3.zero;
+        agent.isStopped = true;
+        characterStats.SetState(CharacterStats.State.IDLE);
     }
 
     //Listening to if enemy dies
@@ -105,14 +113,28 @@ public class Hero : MonoBehaviour
             agent.SetDestination(targetLocation);
         }
 
-        float distance = Vector3.Distance(targetLocation, this.transform.position);
+        float distance = Vector3.Distance(target.transform.position, this.transform.position);
 
         if (distance < thresholdDistance)
         {
-            if (characterStats.state == CharacterStats.State.BATTLE) return;
 
+            if (target.GetComponent<Enemy>())
+            {
+                Vector3 targetRotation = new Vector3(target.transform.position.x, 
+                                                        transform.position.y, 
+                                                         target.transform.position.z);
+                transform.LookAt(targetRotation);
+
+                if (characterStats.state == CharacterStats.State.BATTLE) return;
+                characterStats.SetState(CharacterStats.State.BATTLE);
+            }
+            else
+            {
+                if (characterStats.state == CharacterStats.State.IDLE) return;
+                characterStats.SetState(CharacterStats.State.IDLE);
+                target = null;
+            }
             agent.isStopped = true;
-            characterStats.SetState(CharacterStats.State.BATTLE);
 
         }
         else
@@ -134,17 +156,24 @@ public class Hero : MonoBehaviour
         agent.SetDestination(targetLocation);
         characterStats.SetState(CharacterStats.State.MOVE);
 
-        Enemy enem = target.GetComponent<Enemy>();
-        enem.OnEnemyDeathEvent += OnEnemyDeathEventListener;
+        if (target.GetComponent<Enemy>())
+        {
+            Enemy enem = target.GetComponent<Enemy>();
+            enem.OnEnemyDeathEvent += OnEnemyDeathEventListener;
+        }
     }
 
-    public void SetTargetEmpty()
+    public void MoveHero(GameObject _target)
     {
-        target = null;
-        targetLocation = this.transform.position;
-        agent.isStopped = true;
-        characterStats.SetState(CharacterStats.State.IDLE);
+        RemoveTarget(target);
+        if (_target == null) return;
+        target = _target;
+
+        targetLocation = target.transform.position;
+        agent.SetDestination(targetLocation);
+        characterStats.SetState(CharacterStats.State.MOVE);
     }
+
     public void Battle()
     {
         CharacterStats targetStats = target.GetComponent<CharacterStats>();

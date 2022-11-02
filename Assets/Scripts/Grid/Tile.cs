@@ -47,8 +47,12 @@ public class Tile : MonoBehaviour
     {
         if (InputManager.Instance.isUI) return;
 
-        if (type == Type.PLACED || type == Type.WALKABLE) return;
+        if (type == Type.PLACED) return;
 
+        if(type == Type.WALKABLE)
+        {
+            MoveHero();
+        }
         //TODO: Future, if not in build mode, return (dont do anything)
 
         if(type == Type.UNPLACED)
@@ -63,6 +67,8 @@ public class Tile : MonoBehaviour
         tileCanvas.SetActive(false);
     }
 
+
+    //Building Manager
     public void BuildTower(GameObject item)
     {
         if (BuildingManager.Instance == null) return;
@@ -84,4 +90,20 @@ public class Tile : MonoBehaviour
 
         SetType(Type.UNPLACED);
     }
+
+
+    #region Hero Movement
+
+    public void MoveHero()
+    {
+        if (InputManager.Instance == null) return;
+
+        if (InputManager.Instance.selectedHeroObject == null) return;
+
+        Hero hero = InputManager.Instance.selectedHeroObject;
+
+        hero.MoveHero(this.gameObject);
+    }
+
+    #endregion
 }

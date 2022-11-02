@@ -250,11 +250,14 @@ MonoBehaviour:
   agent: {fileID: 2705509752836552781}
   target: {fileID: 0}
   stats: {fileID: 6404918377159153448}
+  hero: {fileID: 0}
   bounty: 10
   damage: 3
+  targetLocation: {x: 0, y: 0, z: 0}
   thresholdDistance: 2
   attackCounter: 0
   maxAttackCounter: 3
+  distance: 0
 --- !u!114 &6404918377159153448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +273,7 @@ MonoBehaviour:
   state: 0
   animator: {fileID: 4474136251291343356}
   maxHealth: 25
+  health: 0
   movementSpeed: 0.5
   healthBar: {fileID: 8390827648803858574}
 --- !u!54 &302625311803087880
@@ -286,7 +290,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!136 &4630842501298934289
 CapsuleCollider:

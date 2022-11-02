@@ -6,11 +6,11 @@ public class Enemy : MonoBehaviour
 {
     //One hit destroy enemies for now. To be expanded later
     public NavMeshAgent agent;
-    [SerializeField]private GameObject target;
+    [SerializeField] private GameObject target;
 
     public CharacterStats stats;
     public Action OnEnemyDeathEvent;
-    [SerializeField]private Hero hero;
+    [SerializeField] private Hero hero;
     public int bounty;      //Amount of money player receives for kill
 
     [SerializeField] private float damage;
@@ -19,13 +19,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float thresholdDistance;
     [SerializeField] private float attackCounter;
     [SerializeField] private float maxAttackCounter;
+
+    [SerializeField] private float distance;
     private void Start()
     {
         stats.OnDeathEvent += OnDeathEventHandler;
         agent.speed = stats.movementSpeed;
         target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null) return;
-       
+
         SetTarget(target);
     }
 
@@ -37,6 +39,11 @@ public class Enemy : MonoBehaviour
     private void OnDestroy()
     {
         stats.OnDeathEvent -= OnDeathEventHandler;
+
+        if(hero != null)
+        {
+            hero.OnDeathEvent -= SetTargetToHall;
+        }
     }
 
     public void SetTarget(GameObject _target)
@@ -45,6 +52,7 @@ public class Enemy : MonoBehaviour
 
         if (target == null)
         {
+            hero = null;
             agent.isStopped = true;
             stats.SetState(CharacterStats.State.IDLE);
             return;
@@ -53,7 +61,7 @@ public class Enemy : MonoBehaviour
         agent.SetDestination(targetLocation);
         stats.SetState(CharacterStats.State.MOVE);
 
-        if(target.GetComponent<Hero>() != null)
+        if (target.GetComponent<Hero>() != null)
         {
             hero = target.GetComponent<Hero>();
             hero.OnDeathEvent += SetTargetToHall;
@@ -69,11 +77,11 @@ public class Enemy : MonoBehaviour
         }
 
         target = target = GameObject.FindGameObjectWithTag("TownHall");
-        if (target == null) 
+        if (target == null)
         {
             agent.isStopped = true;
             stats.SetState(CharacterStats.State.IDLE);
-            return; 
+            return;
         }
 
         agent.SetDestination(target.transform.position);
@@ -85,9 +93,9 @@ public class Enemy : MonoBehaviour
         Debug.Log("Dying enemy");
         OnEnemyDeathEvent?.Invoke();
 
-        if(CurrencyManager.Instance != null)
+        if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.AddAmount(bounty);
-        
+
         Destroy(this.gameObject);
     }
 
@@ -95,7 +103,15 @@ public class Enemy : MonoBehaviour
     {
         if (target == null) return;
 
-        if (stats.state == CharacterStats.State.BATTLE) return;
+        if (stats.state == CharacterStats.State.BATTLE)
+        {
+            Vector3 targetRotation = new Vector3(target.transform.position.x,
+                                                        transform.position.y,
+                                                         target.transform.position.z);
+            transform.LookAt(targetRotation);
+
+            return;
+        }
 
         if (targetLocation != target.transform.position)
         {
@@ -104,18 +120,18 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(targetLocation);
         }
 
-        float distance = Vector3.Distance(targetLocation, this.transform.position);
+        distance = Vector3.Distance(target.transform.position, this.transform.position);
 
-        if(distance < thresholdDistance)
+        if (distance < thresholdDistance)
         {
+            Vector3 targetRotation = new Vector3(target.transform.position.x,
+                                                        transform.position.y,
+                                                         target.transform.position.z);
+            transform.LookAt(targetRotation);
+
+            if (stats.state == CharacterStats.State.BATTLE) return;
+            stats.SetState(CharacterStats.State.BATTLE);
             agent.isStopped = true;
-            
-            if (attackCounter == 0)
-            {
-                agent.isStopped = true;
-                stats.SetState(CharacterStats.State.BATTLE);
-                attackCounter = maxAttackCounter;
-            }
         }
         else
         {

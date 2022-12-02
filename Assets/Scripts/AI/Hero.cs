@@ -25,9 +25,16 @@ public class Hero : MonoBehaviour
 
     [SerializeField] private List<GameObject> potentialTargets;
 
+
+    //Storage variables
+
+    private float originalDamage;
     private void Start()
     {
         potentialTargets = new List<GameObject>();
+
+
+        originalDamage = damage;
 
         characterStats.OnDeathEvent += OnDeathEventHandler;
     }
@@ -180,5 +187,18 @@ public class Hero : MonoBehaviour
 
         if (targetStats != null)
             targetStats.TakeDamage(damage);
+    }
+
+    //For Power and abilities
+
+    public void SetDamage(float value)
+    {
+        //Damage multiplier
+        damage *= value;
+    }
+
+    public void ResetDamage()
+    {
+        damage = originalDamage;
     }
 }

@@ -6,7 +6,12 @@ public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance = null;
 
-    public GameObject buildingItem; //Prefab selected to be built   
+    public GameObject buildingItem; //Prefab selected to be built
+
+    [Header("Tower Prefabs")]
+    public GameObject targetTower;
+    public GameObject areaTower;
+    
 
     private void Awake()
     {
@@ -25,9 +30,21 @@ public class BuildingManager : MonoBehaviour
         buildingItem = item;
     }
 
-    public void BuildItem(Tile tile)
+    public void SetTargetTower()
+    {
+        buildingItem = targetTower;
+    }
+
+    public void SetAreaTower()
+    {
+        buildingItem = areaTower;
+    }
+
+    public void BuildItem()
     {
         if (buildingItem == null) return;
+
+        Tile tile = TileManager.Instance.currentTile;
 
         Vector3 buildPosition = GetBuildPosition(tile.gameObject.transform);
         GameObject building = 
@@ -35,6 +52,8 @@ public class BuildingManager : MonoBehaviour
 
         Tower tower = building.GetComponent<Tower>();
         tower.AddTileReference(tile);
+
+        tile.ChangeToPlaced();
     }
 
     private Vector3 GetBuildPosition(Transform tilePosition)

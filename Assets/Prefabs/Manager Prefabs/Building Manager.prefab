@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingItem: {fileID: 1613910338933953440, guid: e2bd38c0d53560443a7840a2dbf8ec8e, type: 3}
+  targetTower: {fileID: 1613910338933953440, guid: e2bd38c0d53560443a7840a2dbf8ec8e, type: 3}
+  areaTower: {fileID: 1613910338933953440, guid: 11b987decd86a7c4ab3377c244c5e921, type: 3}

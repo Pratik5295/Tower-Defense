@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private Guid tileId;
     [SerializeField] private Type type;
 
-    [SerializeField] private GameObject tileCanvas;
+    [SerializeField] private UIManager uiManager;
 
     private void Awake()
     {
@@ -30,8 +30,7 @@ public class Tile : MonoBehaviour
         if (TileManager.Instance != null)
             TileManager.Instance.AddTile(this);
 
-        if (tileCanvas == null) return;
-        tileCanvas.SetActive(false);
+        uiManager = UIManager.Instance;
     }
 
     public Guid GetId()
@@ -58,27 +57,28 @@ public class Tile : MonoBehaviour
         if(type == Type.UNPLACED)
         {
             //Open the options menu
-            tileCanvas.SetActive(true);
+            TileManager.Instance.SetCurrentTile(this);
+            uiManager.TurnMenuOn();
         }
     }
 
     public void CloseBuildMenu()
     {
-        tileCanvas.SetActive(false);
+        uiManager.TurnMenuOff();
     }
 
 
     //Building Manager
-    public void BuildTower(GameObject item)
-    {
-        if (BuildingManager.Instance == null) return;
+    //public void BuildTower()
+    //{
+    //    if (BuildingManager.Instance == null) return;
 
-        BuildingManager.Instance.SetBuildingItem(item);
-        BuildingManager.Instance.BuildItem(this);
-        SetType(Type.PLACED);
-        tileCanvas.SetActive(false);
-        BuildingManager.Instance.SetBuildingItem(null);
-    }
+    //    //BuildingManager.Instance.SetBuildingItem(item);
+    //    BuildingManager.Instance.BuildItem();
+        
+    //    CloseBuildMenu();
+    //    //BuildingManager.Instance.SetBuildingItem(null);
+    //}
 
     public void ChangeToUnplaced()
     {
@@ -89,6 +89,11 @@ public class Tile : MonoBehaviour
         if (type != Type.PLACED) return;
 
         SetType(Type.UNPLACED);
+    }
+
+    public void ChangeToPlaced()
+    {
+        SetType(Type.PLACED);
     }
 
 

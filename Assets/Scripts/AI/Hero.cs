@@ -10,10 +10,8 @@ public class Hero : MonoBehaviour
 {
     public CharacterStats characterStats;
 
-    public NavMeshAgent agent;
-
-
     [SerializeField] private float damage;
+    [SerializeField] private float maxDamage;
     public Action OnDeathEvent;
 
     [SerializeField] private float thresholdDistance;
@@ -36,12 +34,18 @@ public class Hero : MonoBehaviour
 
         originalDamage = damage;
 
+        maxDamage = damage * 2; //For now
+
         characterStats.OnDeathEvent += OnDeathEventHandler;
     }
 
     private void OnDeathEventHandler()
     {
         OnDeathEvent?.Invoke();
+
+        //Unsubscribe from all event listeners
+        UnSubscribeFromAllEvents();
+
         Destroy(this.gameObject);
     }
     private void OnDestroy()
@@ -70,7 +74,6 @@ public class Hero : MonoBehaviour
 
         target = null;
         targetLocation = Vector3.zero;
-        agent.isStopped = true;
         characterStats.SetState(CharacterStats.State.IDLE);
     }
 
@@ -113,11 +116,14 @@ public class Hero : MonoBehaviour
 
     private void OnTargetMovement()
     {
-        if (targetLocation != target.transform.position)
+        if (characterStats.state != CharacterStats.State.BATTLE)
         {
-            //Target is moving
-            targetLocation = target.transform.position;
-            agent.SetDestination(targetLocation);
+            if (targetLocation != target.transform.position)
+            {
+                //Target is moving
+                targetLocation = target.transform.position;
+                characterStats.SetTargetLocation(targetLocation);
+            }
         }
 
         float distance = Vector3.Distance(target.transform.position, this.transform.position);
@@ -131,7 +137,7 @@ public class Hero : MonoBehaviour
                                                         transform.position.y, 
                                                          target.transform.position.z);
                 transform.LookAt(targetRotation);
-
+                
                 if (characterStats.state == CharacterStats.State.BATTLE) return;
                 characterStats.SetState(CharacterStats.State.BATTLE);
             }
@@ -141,15 +147,13 @@ public class Hero : MonoBehaviour
                 characterStats.SetState(CharacterStats.State.IDLE);
                 target = null;
             }
-            agent.isStopped = true;
 
         }
         else
         {
-            agent.isStopped = false;
             targetLocation = target.transform.position;
-            agent.SetDestination(targetLocation);
             characterStats.SetState(CharacterStats.State.MOVE);
+            characterStats.SetTargetLocation(targetLocation);
         }
     }
 
@@ -160,13 +164,23 @@ public class Hero : MonoBehaviour
         target = _target;
 
         targetLocation = target.transform.position;
-        agent.SetDestination(targetLocation);
+        
         characterStats.SetState(CharacterStats.State.MOVE);
+        characterStats.SetTargetLocation(targetLocation);
 
         if (target.GetComponent<Enemy>())
         {
             Enemy enem = target.GetComponent<Enemy>();
             enem.OnEnemyDeathEvent += OnEnemyDeathEventListener;
+        }
+    }
+
+    public void UnSubscribeFromAllEvents()
+    {
+        foreach(GameObject enem in potentialTargets)
+        {
+            Enemy target = enem.GetComponent<Enemy>();
+            target.OnEnemyDeathEvent -= OnEnemyDeathEventListener;
         }
     }
 
@@ -177,14 +191,14 @@ public class Hero : MonoBehaviour
         target = _target;
 
         targetLocation = target.transform.position;
-        agent.SetDestination(targetLocation);
         characterStats.SetState(CharacterStats.State.MOVE);
+        characterStats.SetTargetLocation(targetLocation);
     }
 
     public void Battle()
     {
         CharacterStats targetStats = target.GetComponent<CharacterStats>();
-
+        
         if (targetStats != null)
             targetStats.TakeDamage(damage);
     }
@@ -194,6 +208,7 @@ public class Hero : MonoBehaviour
     public void SetDamage(float value)
     {
         //Damage multiplier
+        if (damage >= maxDamage) return;
         damage *= value;
     }
 

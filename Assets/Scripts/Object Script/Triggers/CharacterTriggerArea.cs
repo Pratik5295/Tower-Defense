@@ -12,9 +12,8 @@ public class CharacterTriggerArea : MonoBehaviour
     {
         if(other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Enemy has entered area");
-
             if (hero == null) return;
+            Debug.Log("Enemy has entered area");
             hero.AddTarget(other.gameObject);
         }
 

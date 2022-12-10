@@ -9,6 +9,8 @@ public class TileManager : MonoBehaviour
 
     [SerializeField]private Dictionary<Guid, Tile> tiles = new Dictionary<Guid, Tile>();
 
+
+    public Tile currentTile;
     private void Awake()
     {
         if (Instance == null)
@@ -35,5 +37,10 @@ public class TileManager : MonoBehaviour
     {
         Tile t = tiles[tile.GetId()];
         t.ChangeToUnplaced();
+    }
+
+    public void SetCurrentTile(Tile tile)
+    {
+        currentTile = tile;
     }
 }

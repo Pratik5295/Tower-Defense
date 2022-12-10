@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class CharacterStats : MonoBehaviour
@@ -16,6 +16,9 @@ public class CharacterStats : MonoBehaviour
         BATTLE = 2,
         DEAD = 3
     }
+
+    public NavMeshAgent agent;
+    public NavMeshObstacle obstacle;
 
     public State state;
 
@@ -36,7 +39,7 @@ public class CharacterStats : MonoBehaviour
 
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
-
+        agent.speed = movementSpeed;
         SetState(State.IDLE);
     }
 
@@ -47,6 +50,14 @@ public class CharacterStats : MonoBehaviour
         if (animator != null && animator.gameObject.activeInHierarchy)
             animator.SetInteger(PARAM_STATE, (int)state);
 
+        if(state == State.MOVE)
+        {
+            CharacterMove();
+        }
+        else
+        {
+            TurnAgentOff();
+        }
     }
 
     public void TakeDamage(float amount)
@@ -59,6 +70,34 @@ public class CharacterStats : MonoBehaviour
         {
             SetState(State.DEAD);
             OnDeathEvent?.Invoke();
+        }
+    }
+
+    private void CharacterMove()
+    {
+        agent.enabled = true;
+        if (obstacle != null)
+        {
+            obstacle.enabled = true;
+        }
+        agent.isStopped = false;
+    }
+
+    public void SetTargetLocation(Vector3 targetLocation)
+    {
+        //Only used to set the location of the agent
+        agent.SetDestination(targetLocation);
+    }
+
+    private void TurnAgentOff()
+    {
+        if(agent.enabled)
+            agent.isStopped = true;
+
+        agent.enabled = false;
+        if (obstacle != null)
+        {
+            obstacle.enabled = false;
         }
     }
 }

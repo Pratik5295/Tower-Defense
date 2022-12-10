@@ -24,7 +24,7 @@ public class Tower : MonoBehaviour
     private void OnMouseDown()
     {
         //It wont be based on mouse click, but a UI in future
-
+        if (InputManager.Instance.isUI) return;
         RemoveTower();
     }
 

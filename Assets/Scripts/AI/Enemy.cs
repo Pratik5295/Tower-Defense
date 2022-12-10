@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     //One hit destroy enemies for now. To be expanded later
-    public NavMeshAgent agent;
     [SerializeField] private GameObject target;
 
     public CharacterStats stats;
@@ -24,7 +23,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         stats.OnDeathEvent += OnDeathEventHandler;
-        agent.speed = stats.movementSpeed;
+       
         target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null) return;
 
@@ -53,13 +52,13 @@ public class Enemy : MonoBehaviour
         if (target == null)
         {
             hero = null;
-            agent.isStopped = true;
             stats.SetState(CharacterStats.State.IDLE);
             return;
         }
+
         targetLocation = target.transform.position;
-        agent.SetDestination(targetLocation);
         stats.SetState(CharacterStats.State.MOVE);
+        stats.SetTargetLocation(targetLocation);
 
         if (target.GetComponent<Hero>() != null)
         {
@@ -79,13 +78,11 @@ public class Enemy : MonoBehaviour
         target = target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null)
         {
-            agent.isStopped = true;
             stats.SetState(CharacterStats.State.IDLE);
             return;
         }
-
-        agent.SetDestination(target.transform.position);
         stats.SetState(CharacterStats.State.MOVE);
+        stats.SetTargetLocation(targetLocation);
     }
 
     private void OnDeathEventHandler()
@@ -117,7 +114,7 @@ public class Enemy : MonoBehaviour
         {
             //Target is moving
             targetLocation = target.transform.position;
-            agent.SetDestination(targetLocation);
+            stats.SetTargetLocation(targetLocation);
         }
 
         distance = Vector3.Distance(target.transform.position, this.transform.position);
@@ -131,21 +128,18 @@ public class Enemy : MonoBehaviour
 
             if (stats.state == CharacterStats.State.BATTLE) return;
             stats.SetState(CharacterStats.State.BATTLE);
-            agent.isStopped = true;
         }
         else
         {
-            agent.isStopped = false;
             targetLocation = target.transform.position;
-            agent.SetDestination(targetLocation);
             stats.SetState(CharacterStats.State.MOVE);
+            stats.SetTargetLocation(targetLocation);
         }
     }
 
     public void Battle()
     {
         if (target == null) return;
-
         //if(stats.state == CharacterStats.State.BATTLE)
         //{
         //    attackCounter -= Time.deltaTime;

@@ -48,6 +48,14 @@ public class HeroFaceButton : MonoBehaviour
         SetState(tempState);
     }
 
+    public void TurnToggleOff()
+    {
+        Debug.Log("Turning toggle off");
+        inputManager.HeroButtonToggle(null);
+        UpdateState(false);
+        toggle.isOn = false;
+    }
+
     public void SetState(State state)
     {
         this.state = state;

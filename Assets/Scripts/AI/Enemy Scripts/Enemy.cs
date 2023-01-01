@@ -5,25 +5,27 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     //One hit destroy enemies for now. To be expanded later
-    [SerializeField] private GameObject target;
+    [SerializeField] protected GameObject target;
 
     public CharacterStats stats;
     public Action OnEnemyDeathEvent;
-    [SerializeField] private Hero hero;
+    [SerializeField] protected Hero hero;
     public int bounty;      //Amount of money player receives for kill
 
     [SerializeField] private float damage;
-    [SerializeField] private Vector3 targetLocation;
+    [SerializeField] protected Vector3 targetLocation;
 
     [SerializeField] private float thresholdDistance;
     [SerializeField] private float attackCounter;
     [SerializeField] private float maxAttackCounter;
 
     [SerializeField] private float distance;
+
+    [SerializeField] private bool isRanged;
     private void Start()
     {
         stats.OnDeathEvent += OnDeathEventHandler;
-       
+
         target = GameObject.FindGameObjectWithTag("TownHall");
         if (target == null) return;
 
@@ -39,13 +41,13 @@ public class Enemy : MonoBehaviour
     {
         stats.OnDeathEvent -= OnDeathEventHandler;
 
-        if(hero != null)
+        if (hero != null)
         {
             hero.OnDeathEvent -= SetTargetToHall;
         }
     }
 
-    public void SetTarget(GameObject _target)
+    public virtual void SetTarget(GameObject _target)
     {
         target = _target;
 
@@ -55,10 +57,10 @@ public class Enemy : MonoBehaviour
             stats.SetState(CharacterStats.State.IDLE);
             return;
         }
-
         targetLocation = target.transform.position;
         stats.SetState(CharacterStats.State.MOVE);
         stats.SetTargetLocation(targetLocation);
+
 
         if (target.GetComponent<Hero>() != null)
         {
@@ -140,21 +142,16 @@ public class Enemy : MonoBehaviour
     public void Battle()
     {
         if (target == null) return;
-        //if(stats.state == CharacterStats.State.BATTLE)
-        //{
-        //    attackCounter -= Time.deltaTime;
-
-        //    if(attackCounter < 0)
-        //    {
-        //        Debug.Log($"{this.gameObject.name} is attacking {target.name}");
-        //        attackCounter = maxAttackCounter;
-        //    }
-        //}
 
         Debug.Log($"{target.gameObject.name}");
         CharacterStats targetStats = target.GetComponent<CharacterStats>();
 
         if (targetStats != null)
             targetStats.TakeDamage(damage);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        stats.TakeDamage(amount);
     }
 }

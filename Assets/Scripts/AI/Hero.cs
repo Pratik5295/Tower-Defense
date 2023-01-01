@@ -17,6 +17,8 @@ public class Hero : MonoBehaviour
     [SerializeField] private float thresholdDistance;
     [SerializeField] private float maxAttackCounter;
 
+    public GameObject heroUI;   //On death turn inactive
+
     [Header("Target Details")]
     [SerializeField] private GameObject target;
     [SerializeField] private Vector3 targetLocation;
@@ -37,6 +39,8 @@ public class Hero : MonoBehaviour
         maxDamage = damage * 2; //For now
 
         characterStats.OnDeathEvent += OnDeathEventHandler;
+
+        heroUI.SetActive(true);
     }
 
     private void OnDeathEventHandler()
@@ -46,6 +50,7 @@ public class Hero : MonoBehaviour
         //Unsubscribe from all event listeners
         UnSubscribeFromAllEvents();
 
+        heroUI.SetActive(false);
         Destroy(this.gameObject);
     }
     private void OnDestroy()

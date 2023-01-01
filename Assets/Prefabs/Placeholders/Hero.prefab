@@ -243,6 +243,9 @@ MonoBehaviour:
   areaEffect: {fileID: 8326688116196580535, guid: f8e6af443a4b2794582549a536012522, type: 3}
   areaObject: {fileID: 0}
   isSelected: 0
+  tileMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &705553797576911435
 GameObject:
   m_ObjectHideFlags: 0

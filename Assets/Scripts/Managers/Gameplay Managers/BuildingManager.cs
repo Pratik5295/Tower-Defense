@@ -11,7 +11,6 @@ public class BuildingManager : MonoBehaviour
     [Header("Tower Prefabs")]
     public GameObject targetTower;
     public GameObject areaTower;
-    
 
     private void Awake()
     {
@@ -54,6 +53,8 @@ public class BuildingManager : MonoBehaviour
         tower.AddTileReference(tile);
 
         tile.ChangeToPlaced();
+
+        SetBuildingItem(null);
     }
 
     private Vector3 GetBuildPosition(Transform tilePosition)

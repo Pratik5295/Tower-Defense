@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 89852478707284104}
   - component: {fileID: 534945931643935120}
+  - component: {fileID: 4630016326478386940}
   m_Layer: 2
   m_Name: Effect-Trigger
   m_TagString: Untagged
@@ -45,6 +46,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10.52, y: 0.5, z: 10.03}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4630016326478386940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1584191339180312712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7d42b6e15b8284cb235a59621f9dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &8326688116196580535
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +72,6 @@ GameObject:
   - component: {fileID: 5297064889862674215}
   - component: {fileID: 5318728131249896996}
   - component: {fileID: 7420160028785970092}
-  - component: {fileID: 3672148606905624599}
   m_Layer: 2
   m_Name: AreaEffect
   m_TagString: Untagged
@@ -130,17 +145,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3672148606905624599
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8326688116196580535}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}

@@ -8,6 +8,9 @@ public class CharacterTriggerArea : MonoBehaviour
     [Header("For AI Units")]
     [SerializeField] private Enemy self;
 
+    [Header("For Ranged Units")]
+    [SerializeField] private bool isRanged;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Enemy")
@@ -22,6 +25,14 @@ public class CharacterTriggerArea : MonoBehaviour
             if(self != null)
             {
                 self.SetTarget(other.gameObject);
+            }
+        }
+
+        if (isRanged)
+        {
+            if(other.gameObject.tag == "Tower")
+            {
+
             }
         }
     }

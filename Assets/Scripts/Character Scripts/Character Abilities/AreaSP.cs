@@ -6,6 +6,8 @@ public class AreaSP : CharPower
 
     [SerializeField] private GameObject areaObject;
     public bool isSelected;
+
+    public LayerMask tileMask;
     private void Update()
     {
         if (!isSelected) return;
@@ -15,11 +17,11 @@ public class AreaSP : CharPower
         Ray castPoint = Camera.main.ScreenPointToRay(mouse);
         RaycastHit hit;
 
-        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+        if (Physics.Raycast(castPoint, out hit, Mathf.Infinity, tileMask))
         {
             if (hit.transform.gameObject.tag == "GameTile")
             {
-                areaObject.transform.position = new Vector3(hit.point.x, 0.5f, hit.point.z);
+                areaObject.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -49,6 +51,7 @@ public class AreaSP : CharPower
     private void OnAttackRelease()
     {
         Debug.Log("Now it goes boom!");
+        areaObject.transform.GetChild(0).GetComponent<AreaBlastTrigger>().AreaEffect();
         Destroy(areaObject);
         isSelected = false;
     }

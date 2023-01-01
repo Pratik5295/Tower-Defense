@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance = null;
 
     public GameObject tilePlacementMenu;
+
+    [Header("Click out controllers")]
+    public GameObject[] clickOuts;
 
     private void Awake()
     {
@@ -29,12 +34,14 @@ public class UIManager : MonoBehaviour
     public void TurnMenuOn()
     {
         tilePlacementMenu.SetActive(true);
+       // foreach (GameObject co in clickOuts) co.SetActive(true);
     }
 
     public void TurnMenuOff()
     {
         tilePlacementMenu.SetActive(false);
         TileManager.Instance.SetCurrentTile(null);
+       // foreach (GameObject co in clickOuts) co.SetActive(false);
     }
 
     //Build Towers Section
@@ -51,5 +58,12 @@ public class UIManager : MonoBehaviour
         BuildingManager.Instance.SetAreaTower();
         BuildingManager.Instance.BuildItem();
         TurnMenuOff();
+    }
+
+    //Temporary scene restart button
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

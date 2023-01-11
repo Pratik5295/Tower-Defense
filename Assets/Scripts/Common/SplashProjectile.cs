@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class SplashProjectile : Bullet
+public class SplashProjectile : Projectile
 {
     protected override void HitTarget()
     {
@@ -11,7 +11,6 @@ public class SplashProjectile : Bullet
         {
             if(collider.gameObject.tag == "Enemy")
             {
-                Debug.Log("Hitting Enemy");
                 CharacterStats enemyStats = collider.gameObject.GetComponent<CharacterStats>();
                 enemyStats.TakeDamage(damage);
             }

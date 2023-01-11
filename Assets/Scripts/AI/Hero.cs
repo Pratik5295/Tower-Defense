@@ -106,7 +106,6 @@ public class Hero : MonoBehaviour
             if (potentialTargets.Count > 0)
             {
                 //Set target as our current target got away or died
-                Debug.Log("Searching for new target");
                 if (potentialTargets[0] == null)
                 {
                     potentialTargets.RemoveAt(0);

@@ -1005,7 +1005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705509752836552787, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474136251284190720, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3727,7 +3727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705509752836552787, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474136251284190720, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4919,6 +4919,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Range Goblin Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2705509752836552787, guid: f4904d5a89bde184faa2d610bf27d7ea, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404918377159153448, guid: f4904d5a89bde184faa2d610bf27d7ea, type: 3}
+      propertyPath: maxHealth
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4904d5a89bde184faa2d610bf27d7ea, type: 3}
 --- !u!1001 &2091932657
@@ -5256,7 +5264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705509752836552787, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2788325543410946017, guid: c62bd62f5de7c34419f9cb38a6db053b, type: 3}
       propertyPath: m_Layer

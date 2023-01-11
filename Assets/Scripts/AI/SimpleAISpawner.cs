@@ -18,6 +18,6 @@ public class SimpleAISpawner : MonoBehaviour
     private void EnemySpawnerLogic()
     {
         enemy = Instantiate(enemyPrefab,this.transform.position,Quaternion.identity);
-        enemy.GetComponent<Enemy>().SetTarget(targetSpawner);
+        //enemy.GetComponent<Enemy>().SetTarget(targetSpawner);
     }
 }

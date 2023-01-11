@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 998463192177375983}
   m_Layer: 0
   m_Name: Area Effect Tower
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -313,6 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 0}
+  health: 15
 --- !u!65 &998463192177375983
 BoxCollider:
   m_ObjectHideFlags: 0

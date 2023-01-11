@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Units;
 
 public class CharacterTriggerArea : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CharacterTriggerArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //For Hero
         if(other.gameObject.tag == "Enemy")
         {
             if (hero == null) return;
@@ -20,19 +22,32 @@ public class CharacterTriggerArea : MonoBehaviour
             hero.AddTarget(other.gameObject);
         }
 
-        if(other.gameObject.tag == "Hero")
-        {
-            if(self != null)
-            {
-                self.SetTarget(other.gameObject);
-            }
-        }
-
+        //For Enemies
         if (isRanged)
         {
             if(other.gameObject.tag == "Tower")
             {
-
+                self.AddTarget(other.gameObject,UNIT_TYPE.TOWER);
+            }
+            else if (other.gameObject.tag == "TownHall")
+            {
+                Debug.Log("In town hall range");
+                //self.gameObject.GetComponent<RangeEnemy>().SetRangedAttack(other.gameObject);
+            }
+            else if (other.gameObject.tag == "Hero")
+            {
+                self.AddTarget(other.gameObject, UNIT_TYPE.HERO);
+            }
+        }
+        else
+        {
+            //Melee
+            if (other.gameObject.tag == "Hero")
+            {
+                if (self != null)
+                {
+                    self.AddTarget(other.gameObject, UNIT_TYPE.HERO);
+                }
             }
         }
     }
@@ -48,7 +63,15 @@ public class CharacterTriggerArea : MonoBehaviour
         {
             if (self != null)
             {
-                self.SetTarget(null);
+                self.RemoveTarget(other.gameObject);
+            }
+        }
+
+        if(other.gameObject.tag == "Tower")
+        {
+            if(self != null)
+            {
+                self.RemoveTarget(other.gameObject);
             }
         }
     }

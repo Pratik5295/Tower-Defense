@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class Tower : MonoBehaviour
     
     public Tile tile;   //The tile it is placed on
 
+
+    [SerializeField] private float health;
+    public Action OnTowerDestroyEvent;
     public void AddTileReference(Tile _tile)
     {
         tile = _tile;
@@ -29,5 +33,19 @@ public class Tower : MonoBehaviour
     }
 
 
-  
+    //Tower Stats
+
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+
+        if (health <= 0)
+        {
+            OnTowerDestroyEvent?.Invoke();
+            RemoveTower();
+        }
+    }
+
+
+
 }

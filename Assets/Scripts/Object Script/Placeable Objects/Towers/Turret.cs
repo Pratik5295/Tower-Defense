@@ -56,7 +56,6 @@ public class Turret : MonoBehaviour
     {
         if (shootingCounter <= 0 && target != null)
         {
-            Debug.Log($"{gameObject.name} is shooting");
             Shoot();
             shootingCounter = maxShootingCounter;
         }
@@ -127,7 +126,7 @@ public class Turret : MonoBehaviour
     {
         GameObject bullet = Instantiate(projectilePrefab, barrelPoint.transform.position, barrelPoint.transform.rotation);
 
-        bullet.GetComponent<Bullet>().SetTarget(target);
+        bullet.GetComponent<Projectile>().SetTarget(target);
     }
 
 }

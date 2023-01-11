@@ -10,4 +10,9 @@ public class AIAnimator : MonoBehaviour
     {
         enemy.Battle();
     }
+
+    public void RangeAttack()
+    {
+        enemy.gameObject.GetComponent<RangeEnemy>().Throw();
+    }
 }

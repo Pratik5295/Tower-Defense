@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AreaBlastTrigger : MonoBehaviour
 {
+    public float Damage;
     public LayerMask m_LayerMask;
     public void AreaEffect()
     {
@@ -12,7 +13,7 @@ public class AreaBlastTrigger : MonoBehaviour
         foreach(Collider collider in hitColliders)
         {
             Debug.Log($"Collided with: {collider.gameObject.name}");
-            collider.gameObject.GetComponent<Enemy>().TakeDamage(5f);
+            collider.gameObject.GetComponent<Enemy>().TakeDamage(Damage);
         }
     }
 }

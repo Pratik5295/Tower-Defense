@@ -1,6 +1,7 @@
 using UnityEngine;
 using static UITowerButton;
 using static Units;
+using static UnityEngine.GraphicsBuffer;
 
 public class RangeEnemy : Enemy
 {
@@ -56,7 +57,10 @@ public class RangeEnemy : Enemy
     {
         if (currentTarget == null) return;
 
-        GameObject projectile = Instantiate(throwProjectile, throwPoint.transform.position, Quaternion.identity);
+        Vector3 targetDirection = currentTarget.transform.position - transform.position;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 30f, 0.0f);
+
+        GameObject projectile = Instantiate(throwProjectile, throwPoint.transform.position, Quaternion.LookRotation(newDirection));
 
         projectile.GetComponent<ThrowProjectile>().SetTarget(currentTarget);
     }

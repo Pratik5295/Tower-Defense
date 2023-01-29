@@ -209,7 +209,7 @@ public class Hero : MonoBehaviour
 
     //For Power and abilities
 
-    public void SetDamage(float value)
+    public void SetDamageMultiplier(float value)
     {
         //Damage multiplier
         if (damage >= maxDamage) return;

@@ -56,7 +56,8 @@ public class CharacterTriggerArea : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            hero.RemoveTarget(other.gameObject);
+            if(hero !=  null)
+                hero.RemoveTarget(other.gameObject);
         }
 
         if (other.gameObject.tag == "Hero")

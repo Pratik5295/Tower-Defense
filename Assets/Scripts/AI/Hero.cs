@@ -27,13 +27,13 @@ public class Hero : MonoBehaviour
 
 
     //Storage variables
-
+    public bool logicLock;
     private float originalDamage;
     private void Start()
     {
         potentialTargets = new List<GameObject>();
 
-
+        logicLock = false;
         originalDamage = damage;
 
         maxDamage = damage * 2; //For now
@@ -95,6 +95,8 @@ public class Hero : MonoBehaviour
 
     private void Update()
     {
+        if (logicLock) return;
+
         if (target != null)
         {
             //Has target, do movement and other logic
@@ -211,13 +213,37 @@ public class Hero : MonoBehaviour
 
     public void SetDamageMultiplier(float value)
     {
+        SetLogicLock(true);
         //Damage multiplier
         if (damage >= maxDamage) return;
         damage *= value;
+
+        characterStats.OnStatPowerActivated();
+        Invoke("SwitchToIdle", 0.8f);   //Switching to idle animation as we dont want the character to be stuck in power state
+
+    }
+
+    public void AreaEffectAttackReleased()
+    {
+        //Handles the logic of area effect attack on player side
+        SetLogicLock(true);
+        characterStats.OnAreaPowerActivated();
+        Invoke("SwitchToIdle", 3.5f);
+    }
+
+    private void SwitchToIdle()
+    {
+        characterStats.SwitchToIdle();
+        SetLogicLock(false);
     }
 
     public void ResetDamage()
     {
         damage = originalDamage;
+    }
+
+    public void SetLogicLock(bool val)
+    {
+        logicLock = val;
     }
 }

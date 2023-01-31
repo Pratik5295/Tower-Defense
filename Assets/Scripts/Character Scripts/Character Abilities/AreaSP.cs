@@ -51,6 +51,7 @@ public class AreaSP : CharPower
     private void OnAttackRelease()
     {
         Debug.Log("Now it goes boom!");
+        hero.AreaEffectAttackReleased();
         areaObject.transform.GetChild(0).GetComponent<AreaBlastTrigger>().AreaEffect();
         Destroy(areaObject);
         isSelected = false;

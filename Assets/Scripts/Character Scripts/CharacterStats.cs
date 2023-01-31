@@ -14,7 +14,9 @@ public class CharacterStats : MonoBehaviour
         IDLE = 0,
         MOVE = 1,
         BATTLE = 2,
-        DEAD = 3
+        DEAD = 3,
+        STATPOWER = 4,
+        AREAPOWER = 5
     }
 
     public NavMeshAgent agent;
@@ -99,5 +101,22 @@ public class CharacterStats : MonoBehaviour
         {
             obstacle.enabled = false;
         }
+    }
+
+    //For powers
+
+    public void OnStatPowerActivated()
+    {
+        SetState(State.STATPOWER);
+    }
+
+    public void OnAreaPowerActivated()
+    {
+        SetState(State.AREAPOWER);
+    }
+
+    public void SwitchToIdle()
+    {
+        SetState(State.IDLE);
     }
 }
